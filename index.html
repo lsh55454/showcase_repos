@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seunghyeon Lee | GitHub Portfolio</title>
+  <style>
+    :root { --transition: 0.3s ease; }
+    [data-theme="dark"] { --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128; --bg-card-hover: #22272e; --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e; --text-muted: #6e7681; --accent: #58a6ff; --accent-hover: #79b8ff; --accent-subtle: rgba(88,166,255,0.1); --green: #3fb950; --orange: #d29922; --purple: #bc8cff; --red: #f85149; --shadow: 0 3px 12px rgba(0,0,0,0.4); }
+    [data-theme="light"] { --bg-primary: #f6f8fa; --bg-secondary: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f3f4f6; --border: #d0d7de; --text-primary: #1f2328; --text-secondary: #656d76; --text-muted: #8b949e; --accent: #0969da; --accent-hover: #0550ae; --accent-subtle: rgba(9,105,218,0.08); --green: #1a7f37; --orange: #9a6700; --purple: #8250df; --red: #cf222e; --shadow: 0 3px 12px rgba(0,0,0,0.08); }
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg-primary); color:var(--text-primary); line-height:1.6; transition:background var(--transition),color var(--transition); min-height:100vh; }
+    a { color:var(--accent); text-decoration:none; transition:color var(--transition); }
+    a:hover { color:var(--accent-hover); text-decoration:underline; }
+    .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+    .navbar { background:var(--bg-secondary); border-bottom:1px solid var(--border); padding:12px 0; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+    .navbar .container { display:flex; align-items:center; justify-content:space-between; }
+    .navbar-brand { display:flex; align-items:center; gap:10px; font-weight:600; font-size:18px; color:var(--text-primary); }
+    .navbar-brand svg { fill:var(--text-primary); }
+    .nav-links { display:flex; align-items:center; gap:8px; }
+    .nav-links a { padding:6px 14px; border-radius:6px; font-size:14px; color:var(--text-secondary); transition:all var(--transition); }
+    .nav-links a:hover,.nav-links a.active { background:var(--accent-subtle); color:var(--accent); text-decoration:none; }
+    .theme-toggle { background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; cursor:pointer; color:var(--text-secondary); font-size:18px; transition:all var(--transition); display:flex; align-items:center; }
+    .theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
+    .hero { padding:48px 0 32px; display:flex; align-items:center; gap:32px; }
+    .avatar { width:140px; height:140px; border-radius:50%; border:3px solid var(--border); transition:transform 0.4s ease,border-color 0.3s ease; flex-shrink:0; }
+    .avatar:hover { transform:scale(1.05); border-color:var(--accent); }
+    .hero-info h1 { font-size:28px; font-weight:700; margin-bottom:4px; }
+    .hero-info .username { font-size:18px; color:var(--text-secondary); margin-bottom:8px; }
+    .hero-info .bio { color:var(--text-secondary); margin-bottom:16px; font-size:15px; }
+    .stats-row { display:flex; gap:24px; flex-wrap:wrap; }
+    .stat-item { display:flex; align-items:center; gap:6px; font-size:14px; color:var(--text-secondary); }
+    .stat-item strong { color:var(--text-primary); }
+    .section-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px 0; border-bottom:1px solid var(--border); margin-bottom:24px; }
+    .section-title { font-size:20px; font-weight:600; display:flex; align-items:center; gap:8px; }
+    .repo-count { background:var(--accent-subtle); color:var(--accent); font-size:12px; padding:2px 8px; border-radius:12px; font-weight:600; }
+    .controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .search-box { background:var(--bg-primary); border:1px solid var(--border); border-radius:6px; padding:8px 12px; color:var(--text-primary); font-size:14px; width:240px; transition:border-color var(--transition); }
+    .search-box:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-subtle); }
+    .filter-btn { background:var(--bg-primary); border:1px solid var(--border); border-radius:6px; padding:8px 14px; color:var(--text-secondary); font-size:13px; cursor:pointer; transition:all var(--transition); }
+    .filter-btn:hover,.filter-btn.active { background:var(--accent-subtle); border-color:var(--accent); color:var(--accent); }
+    .sort-select { background:var(--bg-primary); border:1px solid var(--border); border-radius:6px; padding:8px 12px; color:var(--text-primary); font-size:13px; cursor:pointer; }
+    .sort-select:focus { outline:none; border-color:var(--accent); }
+    .repos-grid { display:grid; gap:16px; padding-bottom:48px; }
+    .repo-card { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:20px 24px; transition:all var(--transition); cursor:pointer; position:relative; }
+    .repo-card:hover { background:var(--bg-card-hover); border-color:var(--accent); box-shadow:var(--shadow); transform:translateY(-2px); }
+    .repo-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .repo-name { font-size:17px; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:8px; }
+    .repo-name svg { flex-shrink:0; }
+    .repo-visibility { font-size:11px; padding:2px 8px; border:1px solid var(--border); border-radius:12px; color:var(--text-muted); font-weight:500; }
+    .repo-description { color:var(--text-secondary); font-size:14px; margin-bottom:16px; line-height:1.5; }
+    .repo-meta { display:flex; align-items:center; gap:20px; flex-wrap:wrap; font-size:13px; color:var(--text-muted); }
+    .meta-item { display:flex; align-items:center; gap:5px; }
+    .lang-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+    .repo-topics { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+    .topic-tag { background:var(--accent-subtle); color:var(--accent); font-size:12px; padding:2px 10px; border-radius:12px; font-weight:500; }
+    .lang-overview { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:24px; }
+    .lang-overview h3 { font-size:15px; font-weight:600; margin-bottom:12px; }
+    .lang-bar { height:10px; border-radius:5px; overflow:hidden; display:flex; margin-bottom:12px; background:var(--border); }
+    .lang-bar-segment { height:100%; transition:width 0.6s ease; }
+    .lang-legend { display:flex; gap:16px; flex-wrap:wrap; }
+    .lang-legend-item { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-secondary); }
+    .activity-card { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; }
+    .activity-card h3 { font-size:15px; font-weight:600; margin-bottom:16px; }
+    .activity-timeline { position:relative; }
+    .activity-item { display:flex; gap:12px; padding-bottom:16px; position:relative; }
+    .activity-item:last-child { padding-bottom:0; }
+    .activity-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); margin-top:6px; flex-shrink:0; }
+    .activity-content { font-size:14px; color:var(--text-secondary); }
+    .activity-content strong { color:var(--text-primary); }
+    .activity-time { font-size:12px; color:var(--text-muted); margin-top:2px; }
+    .loading { text-align:center; padding:60px 0; color:var(--text-secondary); }
+    .spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .empty-state { text-align:center; padding:40px 0; color:var(--text-muted); font-size:14px; }
+    .footer { border-top:1px solid var(--border); padding:24px 0; text-align:center; color:var(--text-muted); font-size:13px; }
+    .footer a { color:var(--text-secondary); }
+    @media (max-width:768px) { .hero { flex-direction:column; text-align:center; padding:32px 0 24px; } .avatar { width:110px; height:110px; } .stats-row { justify-content:center; } .section-header { flex-direction:column; align-items:flex-start; } .controls { width:100%; } .search-box { width:100%; } .nav-links a span { display:none; } }
+    .scroll-top { position:fixed; bottom:24px; right:24px; background:var(--accent); color:#fff; border:none; border-radius:50%; width:42px; height:42px; font-size:20px; cursor:pointer; opacity:0; visibility:hidden; transition:all var(--transition); box-shadow:0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; }
+    .scroll-top.visible { opacity:1; visibility:visible; }
+    .scroll-top:hover { transform:translateY(-3px); }
+  </style>
+</head>
+<body>
+  <nav class="navbar"><div class="container"><a href="#" class="navbar-brand"><svg height="24" width="24" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>lsh55454</a><div class="nav-links"><a href="#repos" class="active">Repositories</a><a href="#languages">Languages</a><a href="#activity">Activity</a><button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><span id="theme-icon">&#9728;</span></button></div></div></nav>
+
+  <section class="container"><div class="hero"><img class="avatar" id="avatar" src="https://avatars.githubusercontent.com/u/78131190?v=4" alt="Seunghyeon Lee"><div class="hero-info"><h1 id="name">Seunghyeon Lee</h1><div class="username" id="username">@lsh55454</div><div class="bio" id="bio">Developer &amp; Problem Solver</div><div class="stats-row" id="stats"><div class="stat-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1h-8a1 1 0 00-1 1v6.708A2.486 2.486 0 014.5 9h8V1.5z"></path></svg><strong id="repo-count">6</strong> repositories</div><div class="stat-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"></path></svg><strong id="followers">1</strong> followers</div><div class="stat-item"><strong id="following">1</strong> following</div></div></div></div></section>
+
+  <section class="container" id="languages"><div class="lang-overview"><h3>Languages</h3><div class="lang-bar" id="lang-bar"></div><div class="lang-legend" id="lang-legend"></div></div></section>
+
+  <section class="container" id="repos"><div class="section-header"><div class="section-title">Repositories <span class="repo-count" id="visible-count">0</span></div><div class="controls"><input type="text" class="search-box" id="search" placeholder="Find a repository..."><select class="sort-select" id="sort-select"><option value="updated">Recently updated</option><option value="name">Name (A-Z)</option><option value="stars">Stars</option><option value="created">Newest</option></select></div></div><div id="lang-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div><div class="repos-grid" id="repos-grid"><div class="loading"><div class="spinner"></div><p>Loading repositories...</p></div></div></section>
+
+  <section class="container" id="activity"><div class="activity-card"><h3>Recent Activity</h3><div class="activity-timeline" id="activity-timeline"><div class="loading"><div class="spinner"></div><p>Loading activity...</p></div></div></div></section>
+
+  <footer class="footer"><div class="container">Built with GitHub API &middot; <a href="https://github.com/lsh55454" target="_blank">View on GitHub</a></div></footer>
+  <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+  <script>
+    const GITHUB_USER='lsh55454',API_BASE='https://api.github.com';
+    const LANG_COLORS={'Python':'#3572A5','TypeScript':'#3178c6','JavaScript':'#f1e05a','HTML':'#e34c26','CSS':'#563d7c','Java':'#b07219','C++':'#f34b7d','C':'#555555','Go':'#00ADD8','Rust':'#dea584','Ruby':'#701516','Shell':'#89e051','Jupyter Notebook':'#DA5B0B','null':'#8b949e'};
+    let allRepos=[];
+    function toggleTheme(){const h=document.documentElement,c=h.getAttribute('data-theme'),n=c==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('theme-icon').textContent=n==='dark'?'\u2600':'\u263E';}
+    (function(){const s=localStorage.getItem('theme');if(s){document.documentElement.setAttribute('data-theme',s);document.getElementById('theme-icon').textContent=s==='dark'?'\u2600':'\u263E';}})();
+    window.addEventListener('scroll',()=>{document.getElementById('scroll-top').classList.toggle('visible',window.scrollY>300);});
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(link.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
+    async function fetchProfile(){try{const r=await fetch(`${API_BASE}/users/${GITHUB_USER}`);const u=await r.json();if(u.name)document.getElementById('name').textContent=u.name;if(u.login)document.getElementById('username').textContent='@'+u.login;if(u.bio)document.getElementById('bio').textContent=u.bio;if(u.avatar_url)document.getElementById('avatar').src=u.avatar_url;if(u.public_repos!=null)document.getElementById('repo-count').textContent=u.public_repos;if(u.followers!=null)document.getElementById('followers').textContent=u.followers;if(u.following!=null)document.getElementById('following').textContent=u.following;}catch(e){console.warn('Could not fetch profile.');}}
+    async function fetchRepos(){try{const r=await fetch(`${API_BASE}/users/${GITHUB_USER}/repos?sort=updated&per_page=100`);allRepos=await r.json();if(!Array.isArray(allRepos))allRepos=[];renderLangFilters();renderLangOverview();renderRepos();}catch(e){document.getElementById('repos-grid').innerHTML='<div class="empty-state">Failed to load repositories.</div>';}}
+    async function fetchActivity(){try{const r=await fetch(`${API_BASE}/users/${GITHUB_USER}/events/public?per_page=10`);const events=await r.json();const tl=document.getElementById('activity-timeline');if(!Array.isArray(events)||events.length===0){tl.innerHTML='<div class="empty-state">No recent public activity.</div>';return;}tl.innerHTML=events.slice(0,8).map(ev=>{let d='';const repo=ev.repo?ev.repo.name:'';const time=timeAgo(new Date(ev.created_at));switch(ev.type){case'PushEvent':const c=ev.payload.commits?ev.payload.commits.length:0;d=`Pushed <strong>${c} commit${c!==1?'s':''}</strong> to <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;case'CreateEvent':d=`Created ${ev.payload.ref_type} <strong>${ev.payload.ref||''}</strong> in <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;case'WatchEvent':d=`Starred <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;case'ForkEvent':d=`Forked <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;case'IssuesEvent':d=`${ev.payload.action} an issue in <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;case'PullRequestEvent':d=`${ev.payload.action} a pull request in <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;break;default:d=`Activity in <a href="https://github.com/${repo}" target="_blank">${repo}</a>`;}return`<div class="activity-item"><div class="activity-dot"></div><div><div class="activity-content">${d}</div><div class="activity-time">${time}</div></div></div>`;}).join('');}catch(e){document.getElementById('activity-timeline').innerHTML='<div class="empty-state">Could not load activity.</div>';}}
+    function renderLangFilters(){const langs=[...new Set(allRepos.map(r=>r.language).filter(Boolean))];const c=document.getElementById('lang-filters');c.innerHTML=`<button class="filter-btn active" data-lang="all">All</button>`+langs.map(l=>`<button class="filter-btn" data-lang="${l}">${l}</button>`).join('');c.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{c.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderRepos();});});}
+    function renderLangOverview(){const lc={};allRepos.forEach(r=>{if(r.language)lc[r.language]=(lc[r.language]||0)+1;});const total=Object.values(lc).reduce((a,b)=>a+b,0);const sorted=Object.entries(lc).sort((a,b)=>b[1]-a[1]);document.getElementById('lang-bar').innerHTML=sorted.map(([l,c])=>{const p=(c/total*100).toFixed(1);const cl=LANG_COLORS[l]||'#8b949e';return`<div class="lang-bar-segment" style="width:${p}%;background:${cl}" title="${l}: ${p}%"></div>`;}).join('');document.getElementById('lang-legend').innerHTML=sorted.map(([l,c])=>{const p=(c/total*100).toFixed(1);const cl=LANG_COLORS[l]||'#8b949e';return`<div class="lang-legend-item"><span class="lang-dot" style="background:${cl}"></span>${l} <span style="color:var(--text-muted)">${p}%</span></div>`;}).join('');}
+    function renderRepos(){const search=document.getElementById('search').value.toLowerCase();const sortBy=document.getElementById('sort-select').value;const activeLang=document.querySelector('.filter-btn.active')?.dataset.lang||'all';let filtered=allRepos.filter(r=>{const ms=r.name.toLowerCase().includes(search)||(r.description&&r.description.toLowerCase().includes(search));const ml=activeLang==='all'||r.language===activeLang;return ms&&ml;});filtered.sort((a,b)=>{switch(sortBy){case'name':return a.name.localeCompare(b.name);case'stars':return(b.stargazers_count||0)-(a.stargazers_count||0);case'created':return new Date(b.created_at)-new Date(a.created_at);default:return new Date(b.updated_at)-new Date(a.updated_at);}});document.getElementById('visible-count').textContent=filtered.length;if(filtered.length===0){document.getElementById('repos-grid').innerHTML='<div class="empty-state">No repositories match your search.</div>';return;}document.getElementById('repos-grid').innerHTML=filtered.map(repo=>{const lc=LANG_COLORS[repo.language]||'#8b949e';const topics=(repo.topics||[]).map(t=>`<span class="topic-tag">${t}</span>`).join('');const updated=timeAgo(new Date(repo.updated_at));return`<div class="repo-card" onclick="window.open('${repo.html_url}','_blank')"><div class="repo-card-header"><div class="repo-name"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="color:var(--text-muted)"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1h-8a1 1 0 00-1 1v6.708A2.486 2.486 0 014.5 9h8V1.5z"></path></svg>${repo.name}</div><span class="repo-visibility">${repo.private?'Private':'Public'}</span></div>${repo.description?`<div class="repo-description">${repo.description}</div>`:'<div class="repo-description" style="color:var(--text-muted);font-style:italic">No description provided</div>'}${topics?`<div class="repo-topics">${topics}</div>`:''}<div class="repo-meta">${repo.language?`<span class="meta-item"><span class="lang-dot" style="background:${lc}"></span>${repo.language}</span>`:''}${repo.stargazers_count>0?`<span class="meta-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"></path></svg>${repo.stargazers_count}</span>`:''}${repo.forks_count>0?`<span class="meta-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg>${repo.forks_count}</span>`:''}<span class="meta-item">Updated ${updated}</span></div></div>`;}).join('');}
+    function timeAgo(date){const s=Math.floor((new Date()-date)/1000);const intervals=[{label:'year',seconds:31536000},{label:'month',seconds:2592000},{label:'week',seconds:604800},{label:'day',seconds:86400},{label:'hour',seconds:3600},{label:'minute',seconds:60}];for(const i of intervals){const c=Math.floor(s/i.seconds);if(c>=1)return`${c} ${i.label}${c>1?'s':''} ago`;}return'just now';}
+    document.getElementById('search').addEventListener('input',renderRepos);
+    document.getElementById('sort-select').addEventListener('change',renderRepos);
+    fetchProfile();fetchRepos();fetchActivity();
+  </script>
+</body>
+</html>
